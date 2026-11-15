@@ -86,14 +86,31 @@ def _latent_shapes(latent) -> dict:
 
 
 def _ordered(d):
-    """Autogrow dict -> [(name, value)] in numeric-suffix order, skipping unconnected slots."""
+    """Autogrow input -> [(name, value)] in numeric-suffix order.
+
+    During normal V3 execution ComfyUI supplies Autogrow values as dictionaries.
+    During ``check_lazy_status`` (ComfyUI 0.43+) it wraps each dynamic input as
+    ``(value, original_input_key)`` so the executor can request the original
+    input name. Unwrap that lazy-only representation before iterating it.
+    """
+    if isinstance(d, tuple) and len(d) == 2 and isinstance(d[0], dict) and isinstance(d[1], str):
+        d = d[0]
+    if d is None:
+        return []
+    if not isinstance(d, dict):
+        raise TypeError(
+            "Expected an Autogrow input dictionary or ComfyUI lazy tuple "
+            f"(dict, input_key), got {type(d).__name__}"
+        )
     if not d:
         return []
+
     def idx(n):
         try:
             return int(str(n).rsplit("_", 1)[-1])
         except ValueError:
             return 0
+
     return [(k, d[k]) for k in sorted(d, key=idx) if d[k] is not None]
 
 
