@@ -1,0 +1,19 @@
+[project]
+name = "h3-smart"
+version = "0.1.0"
+description = "Low-VRAM smart nodes for MiniMax H3: persistent conditioning cache, budget planner, sampling presets, prompt builder, system advisor."
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []  # mirror requirements.txt; never list torch / numpy / Pillow here
+
+keywords = ["comfyui", "minimax", "h3", "video", "low-vram", "cache"]
+
+[project.urls]
+Repository = "https://github.com/YOUR_USER/h3-smart"
+
+[tool.comfy]
+PublisherId = "TODO-your-publisher-id"
+DisplayName = "H3 Smart"
+# Icon = "https://example.com/icon.png"   # square, SVG/PNG/JPG/GIF, max 400x400
+requires-comfyui = ">=0.43.0"   # tested on v0.43.0 and v0.45.0; needs native MiniMax H3 nodes + comfy_api V3

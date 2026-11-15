@@ -1,0 +1,1169 @@
+{
+  "id": "h3-smart-t2v",
+  "revision": 0,
+  "last_node_id": 19,
+  "last_link_id": 24,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UNETLoader",
+      "pos": [
+        0,
+        120
+      ],
+      "size": [
+        420,
+        90
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            1
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        260
+      ],
+      "size": [
+        420,
+        130
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+        "minimax",
+        "default"
+      ]
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [
+        0,
+        440
+      ],
+      "size": [
+        420,
+        70
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            3,
+            19
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_int8_convrot.safetensors"
+      ],
+      "title": "Video VAE"
+    },
+    {
+      "id": 4,
+      "type": "VAELoader",
+      "pos": [
+        0,
+        560
+      ],
+      "size": [
+        420,
+        70
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            21
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ],
+      "title": "Audio VAE"
+    },
+    {
+      "id": 5,
+      "type": "H3Smart_SystemAdvisor",
+      "pos": [
+        0,
+        -260
+      ],
+      "size": [
+        520,
+        330
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "report",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_SystemAdvisor",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        "fl2va"
+      ],
+      "color": "#432",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 6,
+      "type": "H3Smart_BudgetPlanner",
+      "pos": [
+        560,
+        120
+      ],
+      "size": [
+        430,
+        380
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            4
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            5
+          ]
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "links": [
+            6,
+            7
+          ]
+        },
+        {
+          "name": "report",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_BudgetPlanner",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        "16:9",
+        0.4,
+        5.0,
+        "reduce_resolution",
+        "fl2va",
+        "up",
+        "stable",
+        0.0,
+        -1.0,
+        0.8,
+        0,
+        "match",
+        0.0,
+        300,
+        110.0
+      ]
+    },
+    {
+      "id": 7,
+      "type": "H3Smart_ShotPromptBuilder",
+      "pos": [
+        1030,
+        120
+      ],
+      "size": [
+        470,
+        640
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "length_frames",
+          "type": "INT",
+          "widget": {
+            "name": "length_frames"
+          },
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "warnings",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_ShotPromptBuilder",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        "T2VA",
+        124,
+        "Live-action, cinematic",
+        "a baker in a flour-dusted apron lifts a tray of golden loaves from a stone oven in a small village bakery at dawn.",
+        "push in",
+        "small",
+        "slow",
+        "",
+        3.0,
+        "none",
+        "normal",
+        "normal",
+        "the camera cuts to",
+        "",
+        6.0,
+        "none",
+        "normal",
+        "normal",
+        "the camera cuts to",
+        "Soft rain taps the window. A kettle murmurs in the next room. Her slow breathing is faintly audible.",
+        "A sparse solo piano plays unhurried minor chords."
+      ]
+    },
+    {
+      "id": 8,
+      "type": "H3Smart_CachedConditioning",
+      "pos": [
+        1560,
+        120
+      ],
+      "size": [
+        420,
+        330
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 3
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "last_frame",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": 8
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 4
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 5
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "widget": {
+            "name": "length"
+          },
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            9
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            16
+          ]
+        },
+        {
+          "name": "cache_status",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_CachedConditioning",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        null,
+        1344,
+        768,
+        124,
+        "read_write",
+        "",
+        2.0
+      ],
+      "color": "#323",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 9,
+      "type": "H3Smart_MemoryBarrier",
+      "pos": [
+        2040,
+        120
+      ],
+      "size": [
+        360,
+        130
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "CONDITIONING",
+          "link": 9
+        }
+      ],
+      "outputs": [
+        {
+          "name": "value",
+          "type": "CONDITIONING",
+          "links": [
+            11
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_MemoryBarrier",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        true,
+        true,
+        false,
+        "after text encoder"
+      ],
+      "title": "Memory Barrier (drop text encoder)"
+    },
+    {
+      "id": 10,
+      "type": "H3Smart_SamplingSetup",
+      "pos": [
+        2040,
+        320
+      ],
+      "size": [
+        420,
+        280
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            10
+          ]
+        },
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            14
+          ]
+        },
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            15
+          ]
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_SamplingSetup",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        "fl2va",
+        "turbo",
+        0,
+        "auto",
+        1.0,
+        "res_multistep",
+        "simple"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "BasicGuider",
+      "pos": [
+        2520,
+        120
+      ],
+      "size": [
+        240,
+        60
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 10
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 11
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            13
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 12,
+      "type": "RandomNoise",
+      "pos": [
+        2520,
+        240
+      ],
+      "size": [
+        260,
+        100
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        1234,
+        "randomize"
+      ]
+    },
+    {
+      "id": 13,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        2820,
+        120
+      ],
+      "size": [
+        260,
+        140
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 12
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 13
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 14
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 15
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 16
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            17
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 14,
+      "type": "H3Smart_MemoryBarrier",
+      "pos": [
+        2820,
+        320
+      ],
+      "size": [
+        360,
+        130
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "value",
+          "type": "LATENT",
+          "link": 17
+        }
+      ],
+      "outputs": [
+        {
+          "name": "value",
+          "type": "LATENT",
+          "links": [
+            18,
+            20
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3Smart_MemoryBarrier",
+        "cnr_id": "h3-smart"
+      },
+      "widgets_values": [
+        true,
+        true,
+        false,
+        "before VAE decode"
+      ],
+      "title": "Memory Barrier (drop DiT)"
+    },
+    {
+      "id": 15,
+      "type": "VAEDecode",
+      "pos": [
+        3240,
+        120
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 19
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 16,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        3240,
+        240
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 20
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 21
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            23
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 17,
+      "type": "CreateVideo",
+      "pos": [
+        3520,
+        120
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 22
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 23,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            24
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        24
+      ]
+    },
+    {
+      "id": 18,
+      "type": "SaveVideo",
+      "pos": [
+        3520,
+        290
+      ],
+      "size": [
+        420,
+        360
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 24
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo",
+        "cnr_id": "comfy-core"
+      },
+      "widgets_values": [
+        "video/H3Smart",
+        "auto",
+        "auto"
+      ]
+    },
+    {
+      "id": 19,
+      "type": "MarkdownNote",
+      "pos": [
+        560,
+        -300
+      ],
+      "size": [
+        880,
+        330
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Read me",
+      "properties": {},
+      "widgets_values": [
+        "### H3 Smart: what the pieces do\n**System Advisor** reads your GPU/RAM/flags and installed H3 files and prints advice (queue it once).\n**Budget Planner** turns aspect + megapixels + seconds into width/height/frames and shrinks the request if the\nestimated VRAM exceeds your budget.\n**Cached Conditioning** is the native H3 conditioning node with an on-disk cache: an unchanged prompt/frames/size\nskips the 15 GB text encoder entirely, even with `--cache-none`.\n**Sampling Setup** picks the matching Turbo LoRA + steps + official sampler/scheduler in one node.\n**Memory Barrier** (x2) drops the text encoder before the DiT loads, and the DiT before VAE decode.\n\nT2V: no image needed. Describe the scene in the Shot Prompt Builder (up to 3 timed shots).\n\n**Model files** are the official Comfy-Org/MiniMax-H3 names. Put the Turbo LoRA (`minimax_h3_fl2v_turbo_8step_...`) in `models/loras`; Sampling Setup finds it automatically. Set speed to `balanced` for 20 steps without the LoRA."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      10,
+      0,
+      "MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      8,
+      0,
+      "CLIP"
+    ],
+    [
+      3,
+      3,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      4,
+      6,
+      0,
+      8,
+      5,
+      "INT"
+    ],
+    [
+      5,
+      6,
+      1,
+      8,
+      6,
+      "INT"
+    ],
+    [
+      6,
+      6,
+      2,
+      8,
+      7,
+      "INT"
+    ],
+    [
+      7,
+      6,
+      2,
+      7,
+      0,
+      "INT"
+    ],
+    [
+      8,
+      7,
+      0,
+      8,
+      4,
+      "STRING"
+    ],
+    [
+      9,
+      8,
+      0,
+      9,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      10,
+      10,
+      0,
+      11,
+      0,
+      "MODEL"
+    ],
+    [
+      11,
+      9,
+      0,
+      11,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      12,
+      12,
+      0,
+      13,
+      0,
+      "NOISE"
+    ],
+    [
+      13,
+      11,
+      0,
+      13,
+      1,
+      "GUIDER"
+    ],
+    [
+      14,
+      10,
+      1,
+      13,
+      2,
+      "SAMPLER"
+    ],
+    [
+      15,
+      10,
+      2,
+      13,
+      3,
+      "SIGMAS"
+    ],
+    [
+      16,
+      8,
+      1,
+      13,
+      4,
+      "LATENT"
+    ],
+    [
+      17,
+      13,
+      0,
+      14,
+      0,
+      "LATENT"
+    ],
+    [
+      18,
+      14,
+      0,
+      15,
+      0,
+      "LATENT"
+    ],
+    [
+      19,
+      3,
+      0,
+      15,
+      1,
+      "VAE"
+    ],
+    [
+      20,
+      14,
+      0,
+      16,
+      0,
+      "LATENT"
+    ],
+    [
+      21,
+      4,
+      0,
+      16,
+      1,
+      "VAE"
+    ],
+    [
+      22,
+      15,
+      0,
+      17,
+      0,
+      "IMAGE"
+    ],
+    [
+      23,
+      16,
+      0,
+      17,
+      1,
+      "AUDIO"
+    ],
+    [
+      24,
+      17,
+      0,
+      18,
+      0,
+      "VIDEO"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Models",
+      "color": "#3f789e",
+      "flags": {},
+      "bounding": [
+        -40,
+        40,
+        500,
+        630
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Plan + prompt",
+      "color": "#a1309b",
+      "flags": {},
+      "bounding": [
+        520,
+        40,
+        1020,
+        760
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Conditioning (cached on disk)",
+      "color": "#8A8",
+      "flags": {},
+      "bounding": [
+        1520,
+        40,
+        920,
+        450
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Sampling",
+      "color": "#b58b2a",
+      "flags": {},
+      "bounding": [
+        2000,
+        40,
+        1220,
+        600
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Decode + save",
+      "color": "#3f789e",
+      "flags": {},
+      "bounding": [
+        3200,
+        40,
+        780,
+        650
+      ]
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6,
+      "offset": [
+        200,
+        100
+      ]
+    },
+    "frontendVersion": "1.57.6"
+  },
+  "version": 0.4
+}

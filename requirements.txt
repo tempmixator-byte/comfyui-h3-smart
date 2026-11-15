@@ -1,0 +1,2 @@
+# Only list what ComfyUI does not already provide.
+# Do NOT add torch, numpy, Pillow, safetensors: ComfyUI ships them, and pinning them breaks installs.
